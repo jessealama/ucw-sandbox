@@ -1,27 +1,30 @@
 
-(in-package :dialogues)
+(in-package :ucw-sandbox)
 
-(defcomponent dialogue-frontend-about-page ()
+;;; tab components
+
+(defcomponent tab-window (standard-window-component)
+  ()
+  (:default-initargs
+      :body (make-instance 'tabbed-pane
+			   :current-component-key 'about
+			   :contents `((about . ,(make-instance 'about-page))
+				       (play . ,(make-instance 'game-page))))))
+
+(defcomponent about-page ()
   ())
 
-(defmethod render ((self dialogue-frontend-about-page))
+(defmethod render ((self about-page))
   (<:p "this is the about page"))
 
-(defcomponent dialogue-frontend-game-page ()
+(defcomponent game-page ()
   ())
 
-(defmethod render ((self dialogue-frontend-game-page))
+(defmethod render ((self game-page))
   (<:p "this is the game page"))
 
-(defentry-point "test3" (:application *dialogue-application*)
+(defentry-point "tab-test" (:application *sandbox-application*)
     ()
-  (call 'dialogue-frontend-window))
-
-(defentry-point "test2" (:application *dialogue-application*)
-    ()
-  (make-instance 'dialogue-frontend-pane
-		 :current-component-key 'about
-		 :contents `((about . ,(make-instance 'dialogue-frontend-about-page))
-			     (play . ,(make-instance 'dialogue-frontend-game-page)))))
+  (call 'tab-window))
 
 ;;; tabs.lisp ends here
